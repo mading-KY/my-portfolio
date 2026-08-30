@@ -1,4 +1,4 @@
- /*============================================
+/* ============================================
    GITHUB DARK THEME + RED ACCENT — Professional Portfolio
    ============================================ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600&display=swap');
@@ -360,30 +360,32 @@ input, textarea, select {
 }
 
 /* ============================================
-   HERO SECTION
+   HERO SECTION - FIXED FOR MOBILE (NO EMPTY SPACE)
    ============================================ */
 .hero {
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   padding-top: 80px;
+  padding-bottom: 40px;
   background: var(--bg-primary);
 }
 
-/* 3D Gear Background - MADE MUCH BIGGER */
+/* 3D Gear Background - Centered behind content */
 .gear-container {
   position: absolute;
-  right: 0;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 80vw;
   height: 80vh;
   max-width: 1200px;
   max-height: 1200px;
   perspective: 1000px;
-  z-index: 1;
+  z-index: 0;
   opacity: 0.6;
   pointer-events: none;
   display: flex;
@@ -503,7 +505,7 @@ input, textarea, select {
   }
 }
 
-/* Hero content */
+/* Hero content - Centered on all screens */
 .hero__content {
   position: relative;
   z-index: 10;
@@ -1707,7 +1709,7 @@ input, textarea, select {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN - FIXED FOR MOBILE (NO EMPTY SPACE)
    ============================================ */
 @media (max-width: 1024px) {
   .hero__content {
@@ -1804,16 +1806,108 @@ input, textarea, select {
     margin-top: var(--space-2);
   }
   
+  /* FIXED HERO FOR MOBILE - Content fills screen */
+  .hero {
+    min-height: auto;
+    padding-top: 80px;
+    padding-bottom: 60px;
+    align-items: flex-start;
+  }
+  
+  .hero__content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem var(--space-3);
+    width: 100%;
+  }
+  
+  .hero__text {
+    text-align: center;
+    padding: 0;
+  }
+  
+  .hero__eyebrow {
+    justify-content: center;
+  }
+  
+  .hero__title {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .hero__role {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero__description {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+  
   .hero__actions {
     flex-direction: column;
     gap: 0.75rem;
     width: 100%;
+    margin-bottom: 1.5rem;
   }
   
   .hero__actions .btn {
     width: 100%;
     text-align: center;
     justify-content: center;
+  }
+  
+  .hero__stats {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero__image-wrap {
+    order: -1;
+    margin-bottom: 0;
+  }
+  
+  .hero__image-container {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .hero__terminal {
+    display: block;
+    margin-top: 1.5rem;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  
+  .terminal__body {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .gear-container {
+    top: 30%;
+    left: 50%;
+    width: 80vw;
+    height: 80vh;
+    opacity: 0.25;
+    z-index: 0;
+  }
+  
+  .gear-image--main {
+    width: 50vw;
+  }
+  
+  .gear-image--secondary {
+    width: 70vw;
+  }
+  
+  .gear-image--tertiary {
+    width: 90vw;
   }
   
   .about-content {
@@ -1828,44 +1922,15 @@ input, textarea, select {
     flex-direction: column;
     text-align: center;
   }
-  
-  .hero__content {
-    grid-template-columns: 1fr;
-    gap: var(--space-5);
-  }
-  
-  .gear-container {
-    right: -50px;
-    width: 50vw;
-    height: 50vh;
-    opacity: 0.4;
-  }
-  
-  .gear-image--main {
-    width: 30vw;
-  }
-  
-  .gear-image--secondary {
-    width: 50vw;
-  }
-  
-  .gear-image--tertiary {
-    width: 70vw;
-  }
-  
-  .hero__terminal {
-    display: none;
-  }
 }
 
 @media (max-width: 480px) {
   .hero__content {
-    padding: 0 var(--space-3);
+    padding: 0.5rem var(--space-3);
   }
   
   .hero__stats {
-    flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: 1rem;
   }
   
   .projects-grid {
@@ -1877,21 +1942,25 @@ input, textarea, select {
   }
   
   .gear-container {
-    right: -80px;
-    width: 40vw;
-    height: 40vh;
+    width: 70vw;
+    height: 70vh;
+    opacity: 0.2;
   }
   
   .gear-image--main {
-    width: 25vw;
-  }
-  
-  .gear-image--secondary {
     width: 40vw;
   }
   
+  .gear-image--secondary {
+    width: 60vw;
+  }
+  
   .gear-image--tertiary {
-    width: 55vw;
+    width: 80vw;
+  }
+  
+  .hero__title {
+    font-size: 2rem;
   }
 }
 
