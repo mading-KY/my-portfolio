@@ -1,0 +1,20 @@
+{
+  "name": "my-portfolio-backend",
+  "version": "1.0.0",
+  "description": "Lightweight Express.js backend serving Mading Majok's personal portfolio and handling contact form submissions.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": ["express", "portfolio", "backend", "contact-form"],
+  "author": "Mading Majok",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1785839410447,
+    "name": "Johnny@gmail.com",
+    "email": "Johnny@gmail.com",
+    "message": "Please, change the networking sign in the background to a Gear sign showing the engineering sign.",
+    "receivedAt": "2026-08-04T10:30:10.447Z"
+  },
+  {
+    "id": 1787666927900,
+    "name": "Mading Majok",
+    "email": "madingmajok484@gmail.com",
+    "message": "Great design, but a few things to be changed: 1.The gear isn't what i want, it doesn't look good. How about change it to the real png photo, then animate it to keep rotating? I will put the white colored gear, then you do the process and indicate where the photo should be put in the code. 2. Don't colored the role 'backend and database', you can just italize it or event keep it plain. 3. when the portfolio is adjusts to small screen, it doesn't show the upper side/ dropdown button where one can choose which part one would go be it contact, projects, or experience...",
+    "receivedAt": "2026-08-25T14:08:47.900Z"
+  }
+]

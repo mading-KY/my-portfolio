@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mading Majok — Backend Engineer</title>
+  <meta name="description" content="Mading Majok — backend-leaning software engineering student. Building JunubMart, a Django marketplace, in public.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mading Majok — Backend Engineer">
+  <meta property="og:description" content="Software Engineering Student — Backend Developer & System Designer">
+  <meta property="og:type" content="website">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-screen__content">
+      <p class="loading-screen__text">Initializing portfolio...</p>
+      <div class="loading-screen__bar">
+        <div class="loading-screen__fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">mading</a>
+      
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <div class="nav__links" id="navLinks">
+        <a href="#about" class="nav__link">About</a>
+        <a href="#projects" class="nav__link">Projects</a>
+        <a href="#skills" class="nav__link">Skills</a>
+        <a href="#experience" class="nav__link">Experience</a>
+        <a href="#reading" class="nav__link">Reading</a>
+        <a href="#contact" class="nav__link nav__cta">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <!-- 3D Gear Background - Put gear.png in the same folder as this file -->
+    <div class="gear-container" aria-hidden="true">
+      <div class="gear-3d">
+        <img src="gear.png" alt="" class="gear-image gear-image--main">
+        <img src="gear.png" alt="" class="gear-image gear-image--secondary">
+        <img src="gear.png" alt="" class="gear-image gear-image--tertiary">
+      </div>
+    </div>
+    
+    <!-- Particles -->
+    <div class="hero-particles" id="particles" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <div class="hero__text">
+        <p class="hero__eyebrow">Software Engineering Student</p>
+        
+        <h1 class="hero__title">
+          Mading <span class="highlight">Majok</span>
+        </h1>
+        
+        <p class="hero__role">
+          <em>Software Engineer &amp; Full-Stack Developer</em>
+        </p>
+        
+        <p class="hero__description">
+         I build <strong>web and mobile applications</strong>, work with
+         <strong>databases and backend systems</strong>, and explore how different
+         parts of software work together. Currently building
+         <strong>JunubMart</strong>, a Django-powered marketplace designed for South Sudan.
+        </p>
+        
+        <!-- BUTTONS: Now includes Download CV -->
+        <div class="hero__actions">
+          <a href="#projects" class="btn btn--primary btn--lg">
+            View Projects
+          </a>
+          <a href="resume.pdf" download class="btn btn--secondary btn--lg">
+            Download CV
+          </a>
+          <a href="#contact" class="btn btn--secondary btn--lg">
+            Get In Touch
+          </a>
+        </div>
+        
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <div class="hero__stat-number">2+</div>
+            <div class="hero__stat-label">Years Learning</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-number">10+</div>
+            <div class="hero__stat-label">Projects Built</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-number">5+</div>
+            <div class="hero__stat-label">Technologies</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero__image-wrap">
+        <div class="hero__image-container">
+          <div class="hero__image-frame">
+            <img src="mading.jpg" alt="Mading Majok" class="hero__image" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(45deg, var(--accent-red), var(--accent-blue))';">
+          </div>
+          <div class="hero__image-ring"></div>
+        </div>
+        
+        <!-- Terminal Window -->
+        <div class="hero__terminal">
+          <div class="terminal__header">
+            <div class="terminal__dots">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+            </div>
+            <span class="terminal__title">~/mading-majok</span>
+          </div>
+          <div class="terminal__body">
+            <div class="terminal__line">
+              <span class="terminal__prompt">$</span>
+              <span class="terminal__command">whoami</span>
+            </div>
+            <div class="terminal__line">
+              <span class="terminal__output terminal__output--accent">mading-majok</span>
+            </div>
+            <div class="terminal__line">
+              <span class="terminal__prompt">$</span>
+              <span class="terminal__command">ls</span>
+            </div>
+            <div class="terminal__line">
+              <span class="terminal__output">projects/ skills/ experience/</span>
+            </div>
+            <div class="terminal__line">
+              <span class="terminal__prompt">$</span>
+              <span class="terminal__command">cat current_focus.txt</span>
+            </div>
+            <div class="terminal__line">
+              <span class="terminal__output terminal__output--accent">Building JunubMart with Django</span>
+              <span class="terminal__cursor">▊</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__eyebrow">&gt; whoami --verbose</span>
+        <h2 class="section-title">About Me</h2>
+        <p class="section__subtitle">A backend-leaning software engineer from South Sudan, studying in Ethiopia.</p>
+      </div>
+      
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+             I write <strong>code</strong>, read <strong>literature</strong>, and explore
+             <strong>philosophy</strong> and <strong>science</strong>. Programming gives
+             me a way to build and solve problems; literature gives me a way to understand
+             humanity, ideas, and different perspectives. Somewhere between the two, I
+             continue to learn, build, question, and discover.
+          </p>
+
+          <p>
+             Every project is a chance to turn what I learn into something real, not simply
+             to follow a tutorial and call it done. I learn by building, breaking, fixing,
+             and understanding what happens along the way. I don't just want to know
+             <strong>how something works</strong> — I want to understand
+             <strong>why it works</strong>, and use that understanding to build something
+             better.
+          </p>
+        </div>
+        
+        <div class="about-card">
+          <h3 class="about-card__title">// Current Focus</h3>
+          <div class="about-card__list">
+            <div class="about-card__item">Backend Development</div>
+            <div class="about-card__item">Django &amp; Python</div>
+            <div class="about-card__item">Database Design &amp; Administration</div>
+            <div class="about-card__item">Networking</div>
+            <div class="about-card__item">System Architecture</div>
+          </div>
+          
+          <h3 class="about-card__title" style="margin-top: var(--space-4);">// Career Goal</h3>
+          <p>To become a full-stack software engineer building scalable systems that solve real problems in Africa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="section section--alt" id="projects">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__eyebrow">&gt; ls ~/projects</span>
+        <h2 class="section-title">Projects</h2>
+        <p class="section__subtitle">Things I've built — real problems, real solutions.</p>
+      </div>
+
+      <!-- Featured Project -->
+      <article class="featured-project reveal">
+        <div class="featured-project__inner">
+          <div class="featured-project__content">
+            <div class="featured-project__badges" style="margin-bottom: var(--space-3); display: flex; gap: var(--space-2);">
+              <span class="project-card__badge project-card__badge--active">● In Progress</span>
+              <span class="project-card__badge">Jun 2026 — Oct 2026</span>
+            </div>
+            
+            <h3 class="featured-project__title">JunubMart</h3>
+            <p class="featured-project__subtitle">A marketplace platform designed for South Sudan.</p>
+            
+            <div class="featured-project__problem">
+              <h4 class="featured-project__problem-title">Problem</h4>
+              <p>Many local businesses lack an accessible online marketplace.</p>
+            </div>
+            
+            <div class="featured-project__solution">
+              <h4 class="featured-project__solution-title">Solution</h4>
+              <p>A Django-based e-commerce platform connecting buyers and sellers, built and documented in public.</p>
+            </div>
+            
+            <div class="featured-project__tech">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">SQLite</span>
+              <span class="tech-tag">HTML/CSS</span>
+              <span class="tech-tag">Git</span>
+            </div>
+            
+            <a href="#" class="featured-project__link">
+              View Source
+              <span>→</span>
+            </a>
+          </div>
+          
+          <div class="featured-project__status">
+            <h4 class="featured-project__status-title">
+              <span class="status-pulse"></span>
+              Project Status
+            </h4>
+            <div class="featured-project__status-list">
+              <div class="featured-project__status-item">
+                <span class="featured-project__status-label">Week</span>
+                <span class="featured-project__status-value featured-project__status-value--accent">9 of 13</span>
+              </div>
+              <div class="featured-project__status-item">
+                <span class="featured-project__status-label">Phase</span>
+                <span class="featured-project__status-value">Admin Customization</span>
+              </div>
+              <div class="featured-project__status-item">
+                <span class="featured-project__status-label">Ship Target</span>
+                <span class="featured-project__status-value">2026/9/25</span>
+              </div>
+              <div class="featured-project__status-item">
+                <span class="featured-project__status-label">Features</span>
+                <span class="featured-project__status-value">7/8 Done</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Other Projects -->
+      <div class="projects-grid">
+        <article class="project-card reveal">
+          <div class="project-card__header">
+            <span class="project-card__badge">Coursework</span>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Adaptive Traffic Management</h3>
+            <p class="project-card__description">
+              Adaptive signal timing based on queue load, with an emergency override and SQLite logging.
+            </p>
+            <div class="project-card__meta">
+              <div class="project-card__meta-item">C++</div>
+              <div class="project-card__meta-item">SQLite</div>
+            </div>
+            <a href="https://github.com/a-r-s-e-m-a/ADAPTIVE-TRAFFIC-MANAGEMENT-SYSTEM" class="project-card__link">
+              View Source →
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-card__header">
+            <span class="project-card__badge">Coursework</span>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Food Delivery System</h3>
+            <p class="project-card__description">
+              Normalized relational schema in MySQL alongside a MongoDB store for order tracking.
+            </p>
+            <div class="project-card__meta">
+              <div class="project-card__meta-item">MySQL</div>
+              <div class="project-card__meta-item">MongoDB</div>
+            </div>
+            <a href="https://github.com/suzumi-dev/-AASTU-DB-Project-Group-4" class="project-card__link">
+              View Source →
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-card__header">
+            <span class="project-card__badge">Personal Infra</span>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Portfolio API</h3>
+            <p class="project-card__description">
+              Lightweight Express.js server handling contact form submissions and static file serving.
+            </p>
+            <div class="project-card__meta">
+              <div class="project-card__meta-item">Node.js</div>
+              <div class="project-card__meta-item">Express.js</div>
+            </div>
+            <a href="#" class="project-card__link">
+              View Source →
+            </a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-card__header">
+            <span class="project-card__badge">Next Up</span>
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">JunubMart Phase 2</h3>
+            <p class="project-card__description">
+              Adding new features to the marketplace, continuing till the final week of JunubMart's development.
+            </p>
+            <div class="project-card__meta">
+              <div class="project-card__meta-item">Django</div>
+              <div class="project-card__meta-item">Django Rest Framework</div>
+              <div class="project-card__meta-item">JavaScript</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__eyebrow">&gt; cat skills.json</span>
+        <h2 class="section-title">Skills</h2>
+        <p class="section__subtitle">Technologies and tools I work with.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">languages</h3>
+          <div class="skill-list">
+            <span class="skill-list__item">Python</span>
+            <span class="skill-list__item">C++</span>
+            <span class="skill-list__item">SQL</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">frameworks</h3>
+          <div class="skill-list">
+            <span class="skill-list__item">Django</span>
+            <span class="skill-list__item">Node.js</span>
+            <span class="skill-list__item">Express.js</span>
+            <span class="skill-list__item">Flutter</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">databases</h3>
+          <div class="skill-list">
+            <span class="skill-list__item">SQLite</span>
+            <span class="skill-list__item">MySQL</span>
+            <span class="skill-list__item">MongoDB</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">tools</h3>
+          <div class="skill-list">
+            <span class="skill-list__item">Git &amp; GitHub</span>
+            <span class="skill-list__item">VS Code</span>
+            <span class="skill-list__item">Linux</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">concepts</h3>
+          <div class="skill-list">
+            <span class="skill-list__item">REST APIs</span>
+            <span class="skill-list__item">Networking</span>
+            <span class="skill-list__item">OOP</span>
+            <span class="skill-list__item">Data Structures</span>
+            <span class="skill-list__item">Database Design</span>
+            <span class="skill-list__item">MVC / MVT</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">learning</h3>
+          <div class="skill-list">
+            <span class="skill-list__item">JavaScript DOM</span>
+            <span class="skill-list__item">Responsive CSS</span>
+            <span class="skill-list__item">Django Auth</span>
+            <span class="skill-list__item">Deployment</span>
+            <span class="skill-list__item">Docker</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skill Bars -->
+      <div class="skill-bars">
+        <div class="skill-bar reveal">
+          <div class="skill-bar__header">
+            <span class="skill-bar__label">Python</span>
+            <span class="skill-bar__value">85%</span>
+          </div>
+          <div class="skill-bar__track">
+            <div class="skill-bar__fill" data-width="85%"></div>
+          </div>
+        </div>
+
+        <div class="skill-bar reveal">
+          <div class="skill-bar__header">
+            <span class="skill-bar__label">Django</span>
+            <span class="skill-bar__value">70%</span>
+          </div>
+          <div class="skill-bar__track">
+            <div class="skill-bar__fill" data-width="70%"></div>
+          </div>
+        </div>
+
+        <div class="skill-bar reveal">
+          <div class="skill-bar__header">
+            <span class="skill-bar__label">SQL</span>
+            <span class="skill-bar__value">75%</span>
+          </div>
+          <div class="skill-bar__track">
+            <div class="skill-bar__fill" data-width="75%"></div>
+          </div>
+        </div>
+
+        <div class="skill-bar reveal">
+          <div class="skill-bar__header">
+            <span class="skill-bar__label">C++</span>
+            <span class="skill-bar__value">65%</span>
+          </div>
+          <div class="skill-bar__track">
+            <div class="skill-bar__fill" data-width="65%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="section section--alt" id="experience">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__eyebrow">&gt; cat experience.log</span>
+        <h2 class="section-title">Experience</h2>
+        <p class="section__subtitle">Leadership roles and learning opportunities.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline__item reveal">
+          <div class="timeline__card">
+            <div class="timeline__header">
+              <div>
+                <span class="timeline__role">@ AASTU</span>
+                <h3 class="timeline__company">South Sudanese Students' Union</h3>
+              </div>
+              <span class="timeline__date">Students' Leader</span>
+            </div>
+            <div class="timeline__list">
+              <div class="timeline__list-item">Coordinate student activities</div>
+              <div class="timeline__list-item">Represent South Sudanese students on campus</div>
+              <div class="timeline__list-item">Organize meetings and events</div>
+              <div class="timeline__list-item">Promote collaboration between students</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <div class="timeline__card">
+            <div class="timeline__header">
+              <div>
+                <span class="timeline__role">@ Matsuo Lab</span>
+                <h3 class="timeline__company">Global Consumer Intelligence (GCI)</h3>
+              </div>
+              <span class="timeline__date">Aug 2026</span>
+            </div>
+            <div class="timeline__list">
+              <div class="timeline__list-item">Data analysis and consumer intelligence</div>
+              <div class="timeline__list-item">AI-related coursework through Matsuo Lab</div>
+            </div>
+            <p style="margin-top: var(--space-3); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary);">
+              Certificate expected Aug 2026
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reading Section -->
+  <section class="section reading-section" id="reading">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__eyebrow">&gt; cat reading_list.md</span>
+        <h2 class="section-title">Beyond Code</h2>
+       <p class="section__subtitle">What I read when I'm not coding.</p>
+</div>
+
+<div class="reading-content">
+  <p>
+    Outside programming, I read <strong>philosophy</strong>, <strong>history</strong>, and
+    <strong>classic literature</strong> — Sun Tzu, Machiavelli, Dostoevsky, Dickens, Achebe,
+    and others. Different books, different worlds, but the same curiosity: understanding
+    people, ideas, power, decisions, and the circumstances that shape them.
+  </p>
+
+  <blockquote class="reading-quote">
+    <p>
+      “Read deeply. Think independently. Build deliberately.”
+    </p>
+  </blockquote>
+
+  <p>
+    I carry that same mindset into engineering. Whether I'm looking at a database,
+    debugging a program, or dealing with a difficult problem, I want to understand
+    what is happening before trying to change it. Literature reminds me that life,
+    just like software, is rarely straightforward — most decisions are made with
+    incomplete information, competing interests, and no perfect solution.
+  </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__eyebrow">&gt; ping me</span>
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section__subtitle">Open to internships, freelance work, and collaborative projects.</p>
+      </div>
+
+      <div class="contact-content">
+        <div class="contact-info">
+          <h3 class="contact-info__title">Let's build something together</h3>
+          <p class="contact-info__text">
+            I'm always open to discussing internships, freelance work, backend development, 
+            software engineering, or collaborative projects.
+          </p>
+          
+          <div class="contact-info__list">
+            <div class="contact-info__item">
+              <div class="contact-info__icon">📧</div>
+              <div>
+                <span class="contact-info__label">Email</span>
+                <span class="contact-info__value">madingmajok484@gmail.com</span>
+              </div>
+            </div>
+            
+            <div class="contact-info__item">
+              <div class="contact-info__icon">📍</div>
+              <div>
+                <span class="contact-info__label">Location</span>
+                <span class="contact-info__value">Addis Ababa, Ethiopia</span>
+              </div>
+            </div>
+            
+            <div class="contact-info__item">
+              <div class="contact-info__icon">💼</div>
+              <div>
+                <span class="contact-info__label">Status</span>
+                <span class="contact-info__value">Open to opportunities</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form" id="contactForm" novalidate>
+          <h3 class="contact-form__title">Send a Message</h3>
+          
+          <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required autocomplete="name">
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required autocomplete="email">
+          </div>
+          
+          <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Your message..." required></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn--primary btn--lg" id="submitBtn">
+            Send Message
+          </button>
+          
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__text">
+        Designed and developed by Mading Majok.
+      </p>
+      
+      <div class="footer__social">
+        <a href="https://github.com/mading-KY" class="footer__social-link" target="_blank" rel="noopener" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        
+        <a href="http://www.linkedin.com/in/mading-majok-3b2b20384" class="footer__social-link" target="_blank" rel="noopener" title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+      </div>
+      
+      <p class="footer__copyright">
+        © <span id="year"></span> Mading Majok
+      </p>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    ↑
+  </button>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
