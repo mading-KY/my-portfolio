@@ -1,18 +1,30 @@
 {
   "name": "my-portfolio-backend",
-  "version": "1.0.0",
-  "description": "Lightweight Express.js backend serving Mading Majok's personal portfolio and handling contact form submissions.",
+  "version": "2.1.0",
+  "description": "Full-stack portfolio with admin dashboard, SQLite database, email notifications, and profile photo upload.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": ["express", "portfolio", "backend", "contact-form"],
+  "keywords": [
+    "express",
+    "portfolio",
+    "backend",
+    "contact-form",
+    "admin",
+    "sqlite",
+    "email"
+  ],
   "author": "Mading Majok",
   "license": "MIT",
   "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "express-rate-limit": "^7.1.5"
+    "express-rate-limit": "^7.1.5",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.14"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

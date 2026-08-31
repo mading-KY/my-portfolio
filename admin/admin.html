@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard — Mading Majok</title>
+<link rel="stylesheet" href="/admin.css" />
+</head>
+<body>
+  <div class="admin">
+    <header class="admin__header">
+      <h1>Admin Dashboard</h1>
+      <p class="admin__sub">Edit your public profile and review contact submissions.</p>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="admin__card">
+      <h2>Profile</h2>
+      
+      <!-- Profile Photo Section -->
+      <div class="profile-photo-section">
+        <div class="profile-photo-preview">
+          <img id="photoPreview" src="/mading.jpg" alt="Profile Photo" />
+        </div>
+        <div class="profile-photo-upload">
+          <label for="photoUpload" class="btn btn--upload">Upload New Photo</label>
+          <input type="file" id="photoUpload" accept="image/*" hidden />
+          <span id="photoStatus" class="admin__status"></span>
+        </div>
+      </div>
+      
+      <form id="profileForm">
+        <label for="p-name">Name</label>
+        <input type="text" id="p-name" required />
+
+        <label for="p-role">Role / Tagline</label>
+        <input type="text" id="p-role" required />
+
+        <label for="p-bio">Bio</label>
+        <textarea id="p-bio" rows="6" required></textarea>
+
+        <button type="submit">Save changes</button>
+        <span id="profileStatus" class="admin__status"></span>
+      </form>
+    </section>
+
+    <!-- Messages Section -->
+    <section class="admin__card">
+      <h2>Messages</h2>
+      <p class="admin__sub" id="messagesEmpty">Loading…</p>
+      <table id="messagesTable" class="admin__table" hidden>
+        <thead>
+          <tr><th>Received</th><th>Name</th><th>Email</th><th>Message</th></tr>
+        </thead>
+        <tbody id="messagesBody"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

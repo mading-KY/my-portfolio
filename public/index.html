@@ -667,5 +667,50 @@
 
   <!-- Scripts -->
   <script src="script.js"></script>
+
+  <!-- Add this script before the closing </body> tag -->
+<script>
+  // Load profile dynamically
+  async function loadProfileFromAPI() {
+    try {
+      const res = await fetch('/api/profile');
+      const profile = await res.json();
+      
+      // Update name
+      const titleEl = document.querySelector('.hero__title');
+      if (titleEl && profile.name) {
+        // Split name into first and last for highlight
+        const parts = profile.name.split(' ');
+        const firstName = parts[0];
+        const lastName = parts.slice(1).join(' ');
+        titleEl.innerHTML = `${firstName} <span class="highlight">${lastName}</span>`;
+      }
+      
+      // Update role
+      const roleEl = document.querySelector('.hero__role');
+      if (roleEl && profile.role) {
+        roleEl.innerHTML = `<em>${profile.role}</em>`;
+      }
+      
+      // Update bio
+      const bioEl = document.querySelector('.hero__description');
+      if (bioEl && profile.bio) {
+        bioEl.textContent = profile.bio;
+      }
+      
+      // Update profile photo
+      const photoEl = document.querySelector('.hero__image');
+      if (photoEl && profile.photo) {
+        photoEl.src = profile.photo;
+      }
+    } catch (err) {
+      // Fallback to static content if API not available
+      console.log('Using static profile data');
+    }
+  }
+  
+  // Load profile on page load
+  loadProfileFromAPI();
+</script>
 </body>
 </html>

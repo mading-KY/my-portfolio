@@ -1,74 +1,177 @@
-# Portfolio Backend API
+# Mading Majok — Portfolio Website
 
-A lightweight, fast Express.js backend designed to serve a personal full-stack developer portfolio and securely handle incoming contact form submissions. Currently configured with local JSON file storage for quick deployment, with an architecture prepared for an upcoming MongoDB migration.
+A full-stack portfolio website with an admin dashboard, SQLite database, and email notifications.
 
-## 🚀 Features
+---
 
-* **Static File Serving:** Automatically and efficiently serves the HTML, CSS, and JavaScript portfolio files from the `/public` directory.
-* **Form Handling & Validation:** Receives contact form submissions via a `/api/contact` POST route and ensures no empty messages are processed.
-* **Local Data Storage:** Saves all incoming messages permanently to a local `messages.json` file using Node.js's native `fs` module.
-* **Message Dashboard Route:** Includes a GET route (`/api/messages`) to easily view all received messages as a JSON array in the browser.
+## ✨ Features
 
-## 🛠 Tech Stack
+- 🎨 **Modern Design** — GitHub dark theme with red accent
+- ⚙️ **3D Animated Gear Background** — Rotating gear in the hero section
+- 📝 **Admin Dashboard** — Edit profile, upload photo, and view contact messages
+- 📧 **Email Notifications** — Receive emails for every contact form submission
+- 💾 **SQLite Database** — Store messages and profile data locally
+- 📱 **Fully Responsive** — Works on desktop, tablet, and mobile
+- 🔒 **Basic Auth Protection** — Secure admin dashboard with login
 
-* **Runtime:** Node.js
-* **Framework:** Express.js
-* **Development Tools:** VS Code
+---
 
-## 📂 Project Structure
+## 🛠️ Tech Stack
 
-```text
-my-portfolio/
-├── public/               # Frontend assets
-│   ├── index.html
-│   ├── style.css
-│   ├── script.js
-│   ├── mading.jpg
-│   └── resume.pdf
-├── config/                # (Upcoming) Database configuration
-├── models/                # (Upcoming) Mongoose schemas
-├── messages.json           # Local database for contact form
-├── index.js                # Main Express server entry point
-├── package.json             # Project dependencies and scripts
-└── README.md                # Project documentation
-```
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | HTML, CSS, JavaScript |
+| **Backend** | Node.js, Express.js |
+| **Database** | SQLite (better-sqlite3) |
+| **Email** | Nodemailer (Gmail SMTP) |
+| **Auth** | Basic Auth (Admin Dashboard) |
+| **File Upload** | Multer (Profile Photo) |
 
-## ▶️ How to run it
+---
 
-1. **Install dependencies**
+## 📁 Project Structure
+├── index.js # Main Express server
+├── package.json # Dependencies and scripts
+├── .env # Environment variables (git-ignored)
+├── portfolio.db # SQLite database (auto-generated)
+├── public/
+│ ├── index.html # Portfolio homepage
+│ ├── style.css # Portfolio styles
+│ ├── script.js # Portfolio scripts
+│ ├── gear.png # 3D gear background image
+│ ├── mading.jpg # Profile photo
+│ ├── resume.pdf # Downloadable CV
+│ └── uploads/ # Uploaded profile photos
+├── admin/
+│ ├── admin.html # Admin dashboard HTML
+│ ├── admin.js # Admin dashboard scripts
+│ └── admin.css # Admin dashboard styles
+├── db/
+│ ├── database.js # SQLite setup
+│ ├── messages.js # Message operations
+│ └── profile.js # Profile operations
+└── mailer.js # Email notifications
 
-   ```bash
-   npm install
-   ```
+text
 
-2. **Start the server**
+---
 
-   For local development, with auto-restart on file changes:
+## 🚀 Getting Started
 
-   ```bash
-   npm run dev
-   ```
+### 1. Clone the repository
 
-   For a plain run (e.g. on a host/production):
+```bash
+git clone https://github.com/mading-KY/portfolio.git
+cd portfolio
+2. Install dependencies
+bash
+npm install
+3. Configure environment variables
+Copy .env.example to .env and fill in your credentials:
 
-   ```bash
-   npm start
-   ```
+bash
+cp .env.example .env
+Edit .env:
 
-3. **Open the portfolio**
+env
+PORT=3000
 
-   Visit `http://localhost:3000` — Express serves `public/index.html` and its assets directly.
 
-4. **Test the contact form**
+# Admin Dashboard credentials
+ADMIN_USER=
+ADMIN_PASS=
 
-   Fill in the form on the site (or `POST` to `/api/contact` directly with a JSON body of `{ "name", "email", "message" }`). Successful submissions are appended to `messages.json`.
+# Gmail SMTP for email notifications
+EMAIL_USER=
+EMAIL_PASS=
+EMAIL_TO=
 
-5. **View submitted messages**
+# regarding auth, email, use .env.
 
-   Visit `http://localhost:3000/api/messages` to see every stored submission as a JSON array.
+4. Start the server
+bash
+npm start
+5. Access the site
+Portfolio: http://localhost:3000
 
-## 🔜 Roadmap
+Admin Dashboard: http://localhost:3000/admin
 
-* Migrate `messages.json` to MongoDB via Mongoose (`config/` + `models/` are already scaffolded for this).
-* Add basic auth to `/api/messages` before any real deployment.
-* Add rate limiting to `/api/contact` to prevent spam submissions.
+🔐 Admin Dashboard
+The admin dashboard is protected with Basic Auth.
+
+How to Access:
+Navigate to http://localhost:3000/admin
+
+Enter your ADMIN_USER and ADMIN_PASS from .env
+
+You can now:
+
+Edit Profile — Update name, role, and bio
+
+Upload Photo — Change your profile picture
+
+View Messages — See all contact form submissions
+
+📡 API Endpoints
+Method	Endpoint	Description	Auth Required
+GET	/api/profile	Get profile data	No
+PUT	/api/profile	Update profile	Yes
+POST	/api/profile/photo	Upload profile photo	Yes
+POST	/api/contact	Submit contact form	No
+GET	/api/messages	Get all messages	Yes
+GET	/api/health	Health check	No
+📧 Email Notifications
+When someone submits the contact form:
+
+Message is saved to the SQLite database
+
+Email notification is sent to EMAIL_TO address
+
+Gmail Setup:
+Enable 2-Step Verification on your Google Account
+
+Generate an App Password: myaccount.google.com/apppasswords
+
+Use the 16-character password as EMAIL_PASS in .env
+
+# NOTE: IT'S NOT YET DEPLOYED.
+
+🚢 Deployment
+Deploy to Render (Free)
+Push code to GitHub
+
+Create a new Web Service on Render
+
+Connect your GitHub repo
+
+Set environment variables in Render dashboard
+
+Deploy!
+
+Deploy to Heroku
+bash
+heroku create
+heroku config:set ADMIN_USER=your-username
+heroku config:set ADMIN_PASS=your-password
+heroku config:set EMAIL_USER=your-email@gmail.com
+heroku config:set EMAIL_PASS=your-app-password
+heroku config:set EMAIL_TO=your-email@gmail.com
+git push heroku main
+📜 License
+MIT License — see LICENSE for details.
+
+👤 Author
+Mading Majok
+
+GitHub: @mading-KY
+
+LinkedIn: Mading Majok
+
+Email: madingmajok484@gmail.com
+
+🎉 Acknowledgements
+Built with ❤️ by Mading Majok
+
+Inspired by GitHub's dark theme
+
+Powered by Express.js, SQLite, and Nodemailer

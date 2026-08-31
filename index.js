@@ -1,99 +1,159 @@
 // ============================================================
-// index.js — Main Express server entry point
+// index.js — Main Express server
 // ============================================================
 
+require("dotenv").config();
+
 const express = require("express");
-const fs = require("fs");
 const path = require("path");
+const fs = require("fs");
 const rateLimit = require("express-rate-limit");
+const multer = require("multer");
+const { addMessage, getMessages } = require("./db/messages");
+const { getProfile, updateProfile, updatePhoto } = require("./db/profile");
+const { sendContactEmail } = require("./mailer");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Local "database" file that stores contact form submissions
-const MESSAGES_FILE = path.join(__dirname, "messages.json");
+// Basic Auth middleware
+function basicAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Basic ")) {
+    res.setHeader("WWW-Authenticate", "Basic realm='Admin'");
+    return res.status(401).send("Authentication required.");
+  }
 
-// ------------------------------------------------------------
-// Rate limiting for contact form
-// ------------------------------------------------------------
+  const credentials = Buffer.from(authHeader.split(" ")[1], "base64").toString();
+  const [username, password] = credentials.split(":");
+
+  if (
+    username === process.env.ADMIN_USER &&
+    password === process.env.ADMIN_PASS
+  ) {
+    return next();
+  }
+
+  res.setHeader("WWW-Authenticate", "Basic realm='Admin'");
+  res.status(401).send("Invalid credentials.");
+}
+
+// Rate limiting
 const contactLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // max 10 requests per hour
-  message: { error: "Too many messages sent. Please try again later." }
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  message: { error: "Too many messages sent. Please try again later." },
 });
 
-// ------------------------------------------------------------
+// Multer setup for photo uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, "public", "uploads");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `profile-${Date.now()}${ext}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image files are allowed."), false);
+    }
+  },
+});
+
 // Middleware
-// ------------------------------------------------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // ------------------------------------------------------------
-// Helpers
+// API Routes
 // ------------------------------------------------------------
-function readMessages() {
-  try {
-    const raw = fs.readFileSync(MESSAGES_FILE, "utf-8");
-    return raw.trim() ? JSON.parse(raw) : [];
-  } catch (err) {
-    return [];
+
+// GET /api/profile
+app.get("/api/profile", (req, res) => {
+  res.json(getProfile());
+});
+
+// PUT /api/profile (protected)
+app.put("/api/profile", basicAuth, (req, res) => {
+  const { name, role, bio } = req.body || {};
+
+  if (!name || !role || !bio) {
+    return res.status(400).json({ error: "Name, role, and bio are required." });
   }
-}
 
-function writeMessages(messages) {
-  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2));
-}
+  const profile = updateProfile({ name, role, bio });
+  res.json(profile);
+});
 
-// ------------------------------------------------------------
-// Routes
-// ------------------------------------------------------------
+// POST /api/profile/photo (protected) - Upload profile photo
+app.post("/api/profile/photo", basicAuth, upload.single("photo"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No photo uploaded." });
+  }
+
+  const photoUrl = `/uploads/${req.file.filename}`;
+  const profile = updatePhoto(photoUrl);
+  res.json({ success: true, photoUrl, profile });
+});
 
 // POST /api/contact
-app.post("/api/contact", contactLimiter, (req, res) => {
+app.post("/api/contact", contactLimiter, async (req, res) => {
   const { name, email, message } = req.body || {};
 
-  // Validate
   if (!name || !email || !message || !message.trim()) {
     return res.status(400).json({
       error: "Name, email, and a non-empty message are required.",
     });
   }
 
-  // Basic email validation
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({
-      error: "Please provide a valid email address.",
-    });
+  addMessage({ name, email, message });
+
+  try {
+    await sendContactEmail({ name, email, message });
+  } catch (err) {
+    console.warn("Email notification failed:", err.message);
   }
 
-  const messages = readMessages();
-
-  // Remove any existing message with same email (prevent duplicates)
-  const filteredMessages = messages.filter(m => m.email !== email);
-  
-  filteredMessages.push({
-    id: Date.now(),
-    name: name.trim(),
-    email: email.trim(),
-    message: message.trim(),
-    receivedAt: new Date().toISOString(),
-  });
-
-  writeMessages(filteredMessages);
-
-  res.status(201).json({ 
-    success: true, 
-    message: "Message received. Thank you!" 
-  });
+  res.status(201).json({ success: true, message: "Message received. Thank you!" });
 });
 
-// GET /api/messages
-app.get("/api/messages", (req, res) => {
-  res.json(readMessages());
+// GET /api/messages (protected)
+app.get("/api/messages", basicAuth, (req, res) => {
+  res.json(getMessages());
 });
 
+// ------------------------------------------------------------
+// Admin Dashboard Routes
+// ------------------------------------------------------------
+
+app.get("/admin", basicAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, "admin", "admin.html"));
+});
+
+app.get("/admin.js", basicAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, "admin", "admin.js"));
+});
+
+app.get("/admin.css", basicAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, "admin", "admin.css"));
+});
+
+// ------------------------------------------------------------
 // Health check
+// ------------------------------------------------------------
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
@@ -115,5 +175,5 @@ app.use((err, req, res, next) => {
 // ------------------------------------------------------------
 app.listen(PORT, () => {
   console.log(`Portfolio backend running at http://localhost:${PORT}`);
-  console.log(`Messages stored at: ${MESSAGES_FILE}`);
+  console.log(`Admin dashboard: http://localhost:${PORT}/admin`);
 });
