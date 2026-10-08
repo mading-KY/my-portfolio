@@ -1,9 +1,8 @@
 // ============================================
-// PORTFOLIO SCRIPTS — Comprehensive
+// PORTFOLIO SCRIPTS
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize all components
   initLoadingScreen();
   initScrollProgress();
   initNavigation();
@@ -14,147 +13,106 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initFooterYear();
   initSmoothScroll();
-  initTypingEffect();
 });
 
-// ============================================
 // LOADING SCREEN
-// ============================================
 function initLoadingScreen() {
   const loadingScreen = document.getElementById('loadingScreen');
-  
-  // Hide after page loads
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      loadingScreen.classList.add('hidden');
-    }, 500);
-  });
-  
-  // Safety timeout
-  setTimeout(() => {
-    loadingScreen.classList.add('hidden');
-  }, 3000);
+  if (!loadingScreen) return;
+  const hide = () => loadingScreen.classList.add('hidden');
+  window.addEventListener('load', () => setTimeout(hide, 500));
+  setTimeout(hide, 3000); // safety timeout
 }
 
-// ============================================
 // SCROLL PROGRESS BAR
-// ============================================
 function initScrollProgress() {
-  const progressBar = document.getElementById('scrollProgress');
-  
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
   window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / docHeight) * 100;
-    progressBar.style.width = `${progress}%`;
+    bar.style.width = docHeight > 0 ? `${(window.scrollY / docHeight) * 100}%` : '0%';
   });
 }
 
-// ============================================
 // NAVIGATION
-// ============================================
 function initNavigation() {
   const nav = document.getElementById('nav');
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
   const links = navLinks.querySelectorAll('a');
-  
-  // Toggle mobile menu
+
+  const closeMenu = () => {
+    navToggle.classList.remove('is-open');
+    navLinks.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  };
+
   navToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     navToggle.classList.toggle('is-open');
-    navLinks.classList.toggle('is-open');
+    const open = navLinks.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', String(open));
   });
-  
-  // Close mobile menu on link click
-  links.forEach(link => {
-    link.addEventListener('click', () => {
-      navToggle.classList.remove('is-open');
-      navLinks.classList.remove('is-open');
-    });
-  });
-  
-  // Close mobile menu when clicking outside
+
+  links.forEach(link => link.addEventListener('click', closeMenu));
+
   document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && navLinks.classList.contains('is-open')) {
-      navToggle.classList.remove('is-open');
-      navLinks.classList.remove('is-open');
-    }
+    if (!nav.contains(e.target)) closeMenu();
   });
-  
-  // Nav background on scroll
+
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {   // bottom of page
+      links.forEach(l => l.classList.remove('active'));
+      links[links.length - 1].classList.add('active');
     }
   });
-  
+
   // Active link highlighting
-  const sections = document.querySelectorAll('section[id]');
-  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const activeLink = navLinks.querySelector(`a[href="#${entry.target.id}"]`);
-        if (activeLink) {
-          links.forEach(link => link.classList.remove('active'));
-          activeLink.classList.add('active');
-        }
-      }
+      if (!entry.isIntersecting) return;
+      const active = navLinks.querySelector(`a[href="#${entry.target.id}"]`);
+      links.forEach(l => l.classList.remove('active'));   // sections without a nav link (home, services) clear the highlight
+      if (active) active.classList.add('active');
     });
-  }, { threshold: 0.5 });
-  
-  sections.forEach(section => observer.observe(section));
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });   // thin band near the top-middle of the screen: works for sections of any height
+
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
 }
 
-// ============================================
-// PARTICLES BACKGROUND
-// ============================================
+// PARTICLES
 function initParticles() {
   const container = document.getElementById('particles');
   if (!container) return;
-  
-  const particleCount = 20;
-  
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.top = `${Math.random() * 100}%`;
-    particle.style.animationDelay = `${Math.random() * 8}s`;
-    particle.style.animationDuration = `${6 + Math.random() * 6}s`;
-    
-    container.appendChild(particle);
+
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = `${Math.random() * 100}%`;
+    p.style.top = `${Math.random() * 100}%`;
+    p.style.animationDelay = `${Math.random() * 8}s`;
+    p.style.animationDuration = `${6 + Math.random() * 6}s`;
+    container.appendChild(p);
   }
 }
 
-// ============================================
-// SKILL BARS ANIMATION
-// ============================================
+// SKILL BARS
 function initSkillBars() {
-  const skillBars = document.querySelectorAll('.skill-bar__fill');
-  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('skill-bar__fill--animated');
-        entry.target.style.transform = `scaleX(${entry.target.dataset.width})`;
+        entry.target.style.transform = `scaleX(${parseFloat(entry.target.dataset.width) / 100})`;
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.5 });
-  
-  skillBars.forEach(bar => observer.observe(bar));
+
+  document.querySelectorAll('.skill-bar__fill').forEach(bar => observer.observe(bar));
 }
 
-// ============================================
 // REVEAL ANIMATIONS
-// ============================================
 function initRevealAnimations() {
-  const revealElements = document.querySelectorAll('.reveal');
-  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -163,55 +121,38 @@ function initRevealAnimations() {
       }
     });
   }, { threshold: 0.1 });
-  
-  revealElements.forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
 
-// ============================================
 // CONTACT FORM
-// ============================================
 function initContactForm() {
   const form = document.getElementById('contactForm');
-  const status = document.getElementById('formStatus');
   const submitBtn = document.getElementById('submitBtn');
-  
+  if (!form) return;
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
-    
-    // Validation
-    if (!name || !email || !message) {
-      showFormStatus('Please fill in all fields.', 'error');
-      return;
-    }
-    
-    if (!isValidEmail(email)) {
-      showFormStatus('Please enter a valid email address.', 'error');
-      return;
-    }
-    
-    // Submit
+
+    if (!name || !email || !message) return showFormStatus('Please fill in all fields.', 'error');
+    if (!isValidEmail(email)) return showFormStatus('Please enter a valid email address.', 'error');
+
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
-    
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),
       });
-      
       const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Something went wrong.');
-      }
-      
+      if (!response.ok) throw new Error(data.error || 'Something went wrong.');
+
       showFormStatus('Message sent successfully!', 'success');
       form.reset();
     } catch (error) {
@@ -237,70 +178,34 @@ function showFormStatus(message, type) {
   status.textContent = message;
   status.className = `form-status form-status--${type}`;
   status.style.display = 'block';
-  
-  setTimeout(() => {
-    status.style.display = 'none';
-  }, 5000);
+  setTimeout(() => { status.style.display = 'none'; }, 5000);
 }
 
-// ============================================
-// BACK TO TOP BUTTON
-// ============================================
+// BACK TO TOP
 function initBackToTop() {
   const button = document.getElementById('backToTop');
-  
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 500) {
-      button.classList.add('visible');
-    } else {
-      button.classList.remove('visible');
-    }
+    button.classList.toggle('visible', window.scrollY > 500);
   });
-  
-  button.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  });
+  button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
-// ============================================
 // FOOTER YEAR
-// ============================================
 function initFooterYear() {
   document.getElementById('year').textContent = new Date().getFullYear();
 }
 
-// ============================================
 // SMOOTH SCROLL
-// ============================================
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return; // logo link: let it jump to top
+      const target = document.querySelector(href);
       if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
-}
-
-// ============================================
-// TYPING EFFECT
-// ============================================
-function initTypingEffect() {
-  const terminal = document.querySelector('.terminal__body');
-  if (!terminal) return;
-  
-  const cursor = document.querySelector('.terminal__cursor');
-  if (cursor) {
-    setInterval(() => {
-      cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
-    }, 500);
-  }
 }

@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mading Majok — Backend Engineer</title>
-  <meta name="description" content="Mading Majok — backend-leaning software engineering student. Building JunubMart, a Django marketplace, in public.">
-  
+  <title>Mading Majok — Software Engineer</title>
+  <meta name="description" content="Software Engineering student building web applications, systems, and practical and useful software.">
+  <meta name="color-scheme" content="dark">
+
   <!-- Open Graph -->
-  <meta property="og:title" content="Mading Majok — Backend Engineer">
-  <meta property="og:description" content="Software Engineering Student — Backend Developer & System Designer">
+  <meta property="og:title" content="Mading Majok — Software Engineer">
+  <meta property="og:description" content="Software Engineering student building web applications, systems, and practical and useful software.">
   <meta property="og:type" content="website">
-  
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
   <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -41,13 +42,13 @@
   <nav class="nav" id="nav">
     <div class="nav__inner">
       <a href="#" class="nav__logo">mading</a>
-      
-      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
         <span></span>
         <span></span>
         <span></span>
       </button>
-      
+
       <div class="nav__links" id="navLinks">
         <a href="#about" class="nav__link">About</a>
         <a href="#projects" class="nav__link">Projects</a>
@@ -56,55 +57,46 @@
         <a href="#reading" class="nav__link">Reading</a>
         <a href="#contact" class="nav__link nav__cta">Contact</a>
       </div>
+
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero" id="home">
-    <!-- 3D Gear Background - Put gear.png in the same folder as this file -->
-    <div class="gear-container" aria-hidden="true">
-      <div class="gear-3d">
-        <img src="gear.png" alt="" class="gear-image gear-image--main">
-        <img src="gear.png" alt="" class="gear-image gear-image--secondary">
-        <img src="gear.png" alt="" class="gear-image gear-image--tertiary">
-      </div>
+
+    <!-- 3D gears (drawn by gear3d.js) -->
+    <div class="gear-container" id="gearStage" aria-hidden="true">
+      <canvas id="gearCanvas"></canvas>
     </div>
-    
+
     <!-- Particles -->
     <div class="hero-particles" id="particles" aria-hidden="true"></div>
 
     <div class="hero__content">
       <div class="hero__text">
         <p class="hero__eyebrow">Software Engineering Student</p>
-        
+
         <h1 class="hero__title">
           Mading <span class="highlight">Majok</span>
         </h1>
-        
+
         <p class="hero__role">
-          <em>Software Engineer &amp; Full-Stack Developer</em>
+          <em>Software Engineer — Software, Databases &amp; Networking</em>
         </p>
-        
+
         <p class="hero__description">
-         I build <strong>web and mobile applications</strong>, work with
-         <strong>databases and backend systems</strong>, and explore how different
-         parts of software work together. Currently building
-         <strong>JunubMart</strong>, a Django-powered marketplace designed for South Sudan.
+          I build <strong>practical software</strong> — web apps, backend systems,
+          and the tools in between. I like understanding how things work end to end.
+          Currently building <strong>JunubMart</strong>, a Django-powered marketplace
+          for South Sudan.
         </p>
-        
-        <!-- BUTTONS: Now includes Download CV -->
+
         <div class="hero__actions">
-          <a href="#projects" class="btn btn--primary btn--lg">
-            View Projects
-          </a>
-          <a href="resume.pdf" download class="btn btn--secondary btn--lg">
-            Download CV
-          </a>
-          <a href="#contact" class="btn btn--secondary btn--lg">
-            Get In Touch
-          </a>
+          <a href="#projects" class="btn btn--primary btn--lg">View Projects</a>
+          <a href="resume.pdf" download class="btn btn--secondary btn--lg">Download CV</a>
+          <a href="#contact" class="btn btn--secondary btn--lg">Get In Touch</a>
         </div>
-        
+
         <div class="hero__stats">
           <div class="hero__stat">
             <div class="hero__stat-number">2+</div>
@@ -120,7 +112,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="hero__image-wrap">
         <div class="hero__image-container">
           <div class="hero__image-frame">
@@ -128,7 +120,7 @@
           </div>
           <div class="hero__image-ring"></div>
         </div>
-        
+
         <!-- Terminal Window -->
         <div class="hero__terminal">
           <div class="terminal__header">
@@ -152,14 +144,14 @@
               <span class="terminal__command">ls</span>
             </div>
             <div class="terminal__line">
-              <span class="terminal__output">projects/ skills/ experience/</span>
+              <span class="terminal__output">projects/ skills/ services/ experience/</span>
             </div>
             <div class="terminal__line">
               <span class="terminal__prompt">$</span>
               <span class="terminal__command">cat current_focus.txt</span>
             </div>
             <div class="terminal__line">
-              <span class="terminal__output terminal__output--accent">Building JunubMart with Django</span>
+              <span class="terminal__output terminal__output--accent">Finalizing JunubMart for deployment</span>
               <span class="terminal__cursor">▊</span>
             </div>
           </div>
@@ -174,9 +166,9 @@
       <div class="section__header">
         <span class="section__eyebrow">&gt; whoami --verbose</span>
         <h2 class="section-title">About Me</h2>
-        <p class="section__subtitle">A backend-leaning software engineer from South Sudan, studying in Ethiopia.</p>
+        <p class="section__subtitle">From the land of the Nile, now learning and building in the highlands of Addis — a South Sudanese engineer in Ethiopia.</p>
       </div>
-      
+
       <div class="about-content">
         <div class="about-text">
           <p>
@@ -196,19 +188,18 @@
              better.
           </p>
         </div>
-        
+
         <div class="about-card">
           <h3 class="about-card__title">// Current Focus</h3>
           <div class="about-card__list">
-            <div class="about-card__item">Backend Development</div>
-            <div class="about-card__item">Django &amp; Python</div>
-            <div class="about-card__item">Database Design &amp; Administration</div>
-            <div class="about-card__item">Networking</div>
-            <div class="about-card__item">System Architecture</div>
+            <div class="about-card__item">Building JunubMart — final polish before deploy</div>
+            <div class="about-card__item">Security</div>
+            <div class="about-card__item">Cloud Computing &amp; Docker</div>
+            <div class="about-card__item">Deepening database &amp; networking skills</div>
           </div>
-          
-          <h3 class="about-card__title" style="margin-top: var(--space-4);">// Career Goal</h3>
-          <p>To become a full-stack software engineer building scalable systems that solve real problems in Africa.</p>
+
+          <h3 class="about-card__title about-card__title--spaced">// Career Goal</h3>
+          <p>To build, to manage, and to protect systems</p>
         </div>
       </div>
     </div>
@@ -227,59 +218,67 @@
       <article class="featured-project reveal">
         <div class="featured-project__inner">
           <div class="featured-project__content">
-            <div class="featured-project__badges" style="margin-bottom: var(--space-3); display: flex; gap: var(--space-2);">
-              <span class="project-card__badge project-card__badge--active">● In Progress</span>
+            <div class="featured-project__badges">
+              <span class="project-card__badge project-card__badge--active">● Finalizing</span>
               <span class="project-card__badge">Jun 2026 — Oct 2026</span>
             </div>
-            
+
             <h3 class="featured-project__title">JunubMart</h3>
-            <p class="featured-project__subtitle">A marketplace platform designed for South Sudan.</p>
-            
+            <p class="featured-project__subtitle">Bringing South Sudan's local businesses and property market online.</p>
+
             <div class="featured-project__problem">
               <h4 class="featured-project__problem-title">Problem</h4>
-              <p>Many local businesses lack an accessible online marketplace.</p>
+              <p>South Sudan's local businesses and property owners have no reliable online marketplace — so most trade stays informal, local, and hard to scale.</p>
             </div>
-            
+
             <div class="featured-project__solution">
               <h4 class="featured-project__solution-title">Solution</h4>
-              <p>A Django-based e-commerce platform connecting buyers and sellers, built and documented in public.</p>
+              <p>A Django-powered marketplace connecting buyers, sellers, and property owners in South Sudan — currently in final polish ahead of deployment.</p>
             </div>
-            
+
             <div class="featured-project__tech">
               <span class="tech-tag">Python</span>
               <span class="tech-tag">Django</span>
               <span class="tech-tag">SQLite</span>
               <span class="tech-tag">HTML/CSS</span>
-              <span class="tech-tag">Git</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Git &amp; GitHub</span>
             </div>
-            
-            <a href="#" class="featured-project__link">
-              View Source
-              <span>→</span>
-            </a>
+
+            <span class="featured-project__link featured-project__link--muted">
+              Source to be published at launch — deploying soon
+            </span>
           </div>
-          
+
           <div class="featured-project__status">
             <h4 class="featured-project__status-title">
               <span class="status-pulse"></span>
-              Project Status
+              Launch Status
             </h4>
             <div class="featured-project__status-list">
               <div class="featured-project__status-item">
-                <span class="featured-project__status-label">Week</span>
-                <span class="featured-project__status-value featured-project__status-value--accent">9 of 13</span>
+                <span class="featured-project__status-label">Core platform</span>
+                <span class="featured-project__status-value">Complete</span>
               </div>
               <div class="featured-project__status-item">
-                <span class="featured-project__status-label">Phase</span>
-                <span class="featured-project__status-value">Admin Customization</span>
+                <span class="featured-project__status-label">Authentication &amp; roles</span>
+                <span class="featured-project__status-value">Complete</span>
               </div>
               <div class="featured-project__status-item">
-                <span class="featured-project__status-label">Ship Target</span>
-                <span class="featured-project__status-value">2026/9/25</span>
+                <span class="featured-project__status-label">Marketplace</span>
+                <span class="featured-project__status-value">Complete</span>
               </div>
               <div class="featured-project__status-item">
-                <span class="featured-project__status-label">Features</span>
-                <span class="featured-project__status-value">7/8 Done</span>
+                <span class="featured-project__status-label">Rentals</span>
+                <span class="featured-project__status-value">Complete</span>
+              </div>
+              <div class="featured-project__status-item">
+                <span class="featured-project__status-label">Final cleanup</span>
+                <span class="featured-project__status-value featured-project__status-value--accent">In Progress</span>
+              </div>
+              <div class="featured-project__status-item">
+                <span class="featured-project__status-label">Deployment</span>
+                <span class="featured-project__status-value">Pending</span>
               </div>
             </div>
           </div>
@@ -345,22 +344,6 @@
           </div>
         </article>
 
-        <article class="project-card reveal">
-          <div class="project-card__header">
-            <span class="project-card__badge">Next Up</span>
-          </div>
-          <div class="project-card__body">
-            <h3 class="project-card__title">JunubMart Phase 2</h3>
-            <p class="project-card__description">
-              Adding new features to the marketplace, continuing till the final week of JunubMart's development.
-            </p>
-            <div class="project-card__meta">
-              <div class="project-card__meta-item">Django</div>
-              <div class="project-card__meta-item">Django Rest Framework</div>
-              <div class="project-card__meta-item">JavaScript</div>
-            </div>
-          </div>
-        </article>
       </div>
     </div>
   </section>
@@ -417,6 +400,7 @@
           <div class="skill-list">
             <span class="skill-list__item">REST APIs</span>
             <span class="skill-list__item">Networking</span>
+            <span class="skill-list__item">Security</span>
             <span class="skill-list__item">OOP</span>
             <span class="skill-list__item">Data Structures</span>
             <span class="skill-list__item">Database Design</span>
@@ -424,16 +408,6 @@
           </div>
         </div>
 
-        <div class="skill-card reveal">
-          <h3 class="skill-card__title">learning</h3>
-          <div class="skill-list">
-            <span class="skill-list__item">JavaScript DOM</span>
-            <span class="skill-list__item">Responsive CSS</span>
-            <span class="skill-list__item">Django Auth</span>
-            <span class="skill-list__item">Deployment</span>
-            <span class="skill-list__item">Docker</span>
-          </div>
-        </div>
       </div>
 
       <!-- Skill Bars -->
@@ -471,10 +445,67 @@
         <div class="skill-bar reveal">
           <div class="skill-bar__header">
             <span class="skill-bar__label">C++</span>
-            <span class="skill-bar__value">65%</span>
+            <span class="skill-bar__value">81%</span>
           </div>
           <div class="skill-bar__track">
-            <div class="skill-bar__fill" data-width="65%"></div>
+            <div class="skill-bar__fill" data-width="81%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="section section--alt" id="services">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__eyebrow">&gt; cat services.md</span>
+        <h2 class="section-title">My Services</h2>
+        <p class="section__subtitle">Practical software and writing — for ideas that need to become real.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">backend &amp; databases</h3>
+          <p class="skill-card__desc">The engineering behind reliable applications.</p>
+          <div class="skill-list">
+            <span class="skill-list__item">REST API development</span>
+            <span class="skill-list__item">Authentication &amp; user roles</span>
+            <span class="skill-list__item">Database design &amp; integration</span>
+            <span class="skill-list__item">Data modeling &amp; migrations</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">web applications</h3>
+          <p class="skill-card__desc">From an idea to a working web application.</p>
+          <div class="skill-list">
+            <span class="skill-list__item">Business websites &amp; catalogs</span>
+            <span class="skill-list__item">Blog platforms</span>
+            <span class="skill-list__item">Admin dashboards</span>
+            <span class="skill-list__item">Booking &amp; inventory systems</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">frontend &amp; ui</h3>
+          <p class="skill-card__desc">Clear, responsive interfaces built for people.</p>
+          <div class="skill-list">
+            <span class="skill-list__item">HTML, CSS &amp; JavaScript</span>
+            <span class="skill-list__item">Responsive web interfaces</span>
+            <span class="skill-list__item">Flutter mobile interfaces</span>
+            <span class="skill-list__item">Usability-focused UI</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h3 class="skill-card__title">writing &amp; editing</h3>
+          <p class="skill-card__desc">Turning ideas into clear, thoughtful writing.</p>
+          <div class="skill-list">
+            <span class="skill-list__item">Ghostwriting</span>
+            <span class="skill-list__item">Essay writing</span>
+            <span class="skill-list__item">Blog content</span>
+            <span class="skill-list__item">Editing</span>
           </div>
         </div>
       </div>
@@ -482,7 +513,7 @@
   </section>
 
   <!-- Experience Section -->
-  <section class="section section--alt" id="experience">
+  <section class="section" id="experience">
     <div class="container">
       <div class="section__header">
         <span class="section__eyebrow">&gt; cat experience.log</span>
@@ -491,6 +522,28 @@
       </div>
 
       <div class="timeline">
+        <!-- INSA Cyber Talent Center (Current) -->
+        <div class="timeline__item reveal">
+          <div class="timeline__card">
+            <div class="timeline__header">
+              <div>
+                <span class="timeline__role">@ INSA · Software Development</span>
+                <h3 class="timeline__company">INSA Cyber Talent Center</h3>
+              </div>
+              <span class="timeline__date">Trainee</span>
+            </div>
+            <div class="timeline__list">
+              <div class="timeline__list-item">Software development training under INSA's Cyber Talent Center</div>
+              <div class="timeline__list-item">Hands-on projects in full-stack development and secure coding practices</div>
+              <div class="timeline__list-item">Collaborating with mentors on real-world national software challenges</div>
+            </div>
+            <p class="timeline__note">
+              In progress — Jul 2026 to Oct 2026 (expected)
+            </p>
+          </div>
+        </div>
+
+        <!-- South Sudanese Students' Union -->
         <div class="timeline__item reveal">
           <div class="timeline__card">
             <div class="timeline__header">
@@ -509,6 +562,7 @@
           </div>
         </div>
 
+        <!-- GCI — Completed -->
         <div class="timeline__item reveal">
           <div class="timeline__card">
             <div class="timeline__header">
@@ -520,10 +574,10 @@
             </div>
             <div class="timeline__list">
               <div class="timeline__list-item">Data analysis and consumer intelligence</div>
-              <div class="timeline__list-item">AI-related coursework through Matsuo Lab</div>
+              <div class="timeline__list-item">Completed GCI World, a global AI &amp; data science program run by the University of Tokyo's Matsuo-Iwasawa Laboratory</div>
             </div>
-            <p style="margin-top: var(--space-3); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary);">
-              Certificate expected Aug 2026
+            <p class="timeline__note">
+              Completed — Certificate awarded Aug 2026
             </p>
           </div>
         </div>
@@ -537,30 +591,30 @@
       <div class="section__header">
         <span class="section__eyebrow">&gt; cat reading_list.md</span>
         <h2 class="section-title">Beyond Code</h2>
-       <p class="section__subtitle">What I read when I'm not coding.</p>
-</div>
+        <p class="section__subtitle">What I read when I'm not coding.</p>
+      </div>
 
-<div class="reading-content">
-  <p>
-    Outside programming, I read <strong>philosophy</strong>, <strong>history</strong>, and
-    <strong>classic literature</strong> — Sun Tzu, Machiavelli, Dostoevsky, Dickens, Achebe,
-    and others. Different books, different worlds, but the same curiosity: understanding
-    people, ideas, power, decisions, and the circumstances that shape them.
-  </p>
+      <div class="reading-content">
+        <p>
+          Outside programming, I read <strong>philosophy</strong>, <strong>history</strong>, and
+          <strong>classic literature</strong> — Sun Tzu, Machiavelli, Dostoevsky, Dickens, Achebe,
+          and others. Different books, different worlds, but the same curiosity: understanding
+          people, ideas, power, decisions, and the circumstances that shape them.
+        </p>
 
-  <blockquote class="reading-quote">
-    <p>
-      “Read deeply. Think independently. Build deliberately.”
-    </p>
-  </blockquote>
+        <blockquote class="reading-quote">
+          <p>
+            "Read deeply. Think independently. Build deliberately."
+          </p>
+        </blockquote>
 
-  <p>
-    I carry that same mindset into engineering. Whether I'm looking at a database,
-    debugging a program, or dealing with a difficult problem, I want to understand
-    what is happening before trying to change it. Literature reminds me that life,
-    just like software, is rarely straightforward — most decisions are made with
-    incomplete information, competing interests, and no perfect solution.
-  </p>
+        <p>
+          I carry that same mindset into engineering. Whether I'm looking at a database,
+          debugging a program, or dealing with a difficult problem, I want to understand
+          what is happening before trying to change it. Literature reminds me that life,
+          just like software, is rarely straightforward — most decisions are made with
+          incomplete information, competing interests, and no perfect solution.
+        </p>
       </div>
     </div>
   </section>
@@ -578,10 +632,10 @@
         <div class="contact-info">
           <h3 class="contact-info__title">Let's build something together</h3>
           <p class="contact-info__text">
-            I'm always open to discussing internships, freelance work, backend development, 
+            I'm always open to discussing internships, freelance work, backend development,
             software engineering, or collaborative projects.
           </p>
-          
+
           <div class="contact-info__list">
             <div class="contact-info__item">
               <div class="contact-info__icon">📧</div>
@@ -590,7 +644,7 @@
                 <span class="contact-info__value">madingmajok484@gmail.com</span>
               </div>
             </div>
-            
+
             <div class="contact-info__item">
               <div class="contact-info__icon">📍</div>
               <div>
@@ -598,7 +652,7 @@
                 <span class="contact-info__value">Addis Ababa, Ethiopia</span>
               </div>
             </div>
-            
+
             <div class="contact-info__item">
               <div class="contact-info__icon">💼</div>
               <div>
@@ -611,26 +665,26 @@
 
         <form class="contact-form" id="contactForm" novalidate>
           <h3 class="contact-form__title">Send a Message</h3>
-          
+
           <div class="form-group">
             <label for="name" class="form-label">Name</label>
             <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required autocomplete="name">
           </div>
-          
+
           <div class="form-group">
             <label for="email" class="form-label">Email</label>
             <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required autocomplete="email">
           </div>
-          
+
           <div class="form-group">
             <label for="message" class="form-label">Message</label>
             <textarea id="message" name="message" class="form-input form-textarea" placeholder="Your message..." required></textarea>
           </div>
-          
+
           <button type="submit" class="btn btn--primary btn--lg" id="submitBtn">
             Send Message
           </button>
-          
+
           <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -640,77 +694,67 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="footer__inner">
-      <p class="footer__text">
-        Designed and developed by Mading Majok.
-      </p>
-      
+      <p class="footer__text">Designed and built by Mading Majok — powered by curiosity.</p>
+
       <div class="footer__social">
-        <a href="https://github.com/mading-KY" class="footer__social-link" target="_blank" rel="noopener" title="GitHub">
+        <a href="https://github.com/mading-KY" class="footer__social-link" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         </a>
-        
-        <a href="http://www.linkedin.com/in/mading-majok-3b2b20384" class="footer__social-link" target="_blank" rel="noopener" title="LinkedIn">
+        <a href="http://www.linkedin.com/in/mading-majok-3b2b20384" class="footer__social-link" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
         </a>
+        <a href="https://www.facebook.com/mading.majok.723749" class="footer__social-link" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
       </div>
-      
-      <p class="footer__copyright">
-        © <span id="year"></span> Mading Majok
-      </p>
+
+      <p class="footer__copyright">© <span id="year"></span> Mading Majok</p>
     </div>
   </footer>
 
   <!-- Back to Top -->
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">
-    ↑
-  </button>
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
-  <!-- Scripts -->
+  <!-- Scripts (three.js first, then the gears, then the site scripts) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="gear3d.js"></script>
   <script src="script.js"></script>
 
-  <!-- Add this script before the closing </body> tag -->
-<script>
-  // Load profile dynamically
-  async function loadProfileFromAPI() {
-    try {
-      const res = await fetch('/api/profile');
-      const profile = await res.json();
-      
-      // Update name
-      const titleEl = document.querySelector('.hero__title');
-      if (titleEl && profile.name) {
-        // Split name into first and last for highlight
-        const parts = profile.name.split(' ');
-        const firstName = parts[0];
-        const lastName = parts.slice(1).join(' ');
-        titleEl.innerHTML = `${firstName} <span class="highlight">${lastName}</span>`;
+  <!-- Profile loader -->
+  <script>
+    async function loadProfileFromAPI() {
+      try {
+        const res = await fetch('/api/profile');
+        const profile = await res.json();
+
+        const titleEl = document.querySelector('.hero__title');
+        if (titleEl && profile.name) {
+          const parts = profile.name.split(' ');
+          const firstName = parts[0];
+          const lastName = parts.slice(1).join(' ');
+          titleEl.innerHTML = `${firstName} <span class="highlight">${lastName}</span>`;
+        }
+
+        const roleEl = document.querySelector('.hero__role');
+        if (roleEl && profile.role) {
+          roleEl.innerHTML = `<em>${profile.role}</em>`;
+        }
+
+        const bioEl = document.querySelector('.hero__description');
+        if (bioEl && profile.bio) {
+          bioEl.textContent = profile.bio;
+        }
+
+        const photoEl = document.querySelector('.hero__image');
+        if (photoEl && profile.photo) {
+          photoEl.src = profile.photo;
+        }
+      } catch (err) {
+        console.log('Using static profile data');
       }
-      
-      // Update role
-      const roleEl = document.querySelector('.hero__role');
-      if (roleEl && profile.role) {
-        roleEl.innerHTML = `<em>${profile.role}</em>`;
-      }
-      
-      // Update bio
-      const bioEl = document.querySelector('.hero__description');
-      if (bioEl && profile.bio) {
-        bioEl.textContent = profile.bio;
-      }
-      
-      // Update profile photo
-      const photoEl = document.querySelector('.hero__image');
-      if (photoEl && profile.photo) {
-        photoEl.src = profile.photo;
-      }
-    } catch (err) {
-      // Fallback to static content if API not available
-      console.log('Using static profile data');
     }
-  }
-  
-  // Load profile on page load
-  loadProfileFromAPI();
-</script>
+
+    loadProfileFromAPI();
+  </script>
 </body>
 </html>
