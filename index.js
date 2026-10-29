@@ -121,11 +121,11 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
 
   addMessage({ name, email, message });
 
-  try {
-    await sendContactEmail({ name, email, message });
-  } catch (err) {
-    console.warn("Email notification failed:", err.message);
-  }
+ try {
+  await sendContactEmail({ name, email, message });
+} catch (err) {
+  console.error("Email notification failed:", err);
+}
 
   res.status(201).json({ success: true, message: "Message received. Thank you!" });
 });
