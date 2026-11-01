@@ -14,6 +14,7 @@
   } catch (e) { return; }                      // no WebGL: the dark hero background stays
 
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rebuildEnvironment = () => { scene.environment = pmrem.fromScene(env, 0.04).texture; };
   renderer.setClearColor(0x000000, 0);
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -32,7 +33,7 @@
     p.position.set(x, y, z); p.lookAt(0, 0, 0); env.add(p);
   });
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(env, 0.04).texture;
+  rebuildEnvironment();
 
   scene.add(new THREE.DirectionalLight(0xffffff, 1.1).translateX(-8).translateY(10).translateZ(14));
   const redRim = new THREE.PointLight(0xe63946, 0.9, 40); redRim.position.set(10, -6, 8); scene.add(redRim);
@@ -134,7 +135,7 @@
   let t = 0, last = performance.now(), running = false, visible = true, px = 0, py = 0;
   stage.parentElement.addEventListener('pointermove', e => {
     px = (e.clientX / innerWidth - 0.5) * 0.18; py = (e.clientY / innerHeight - 0.5) * 0.12;
-  });
+  }, { passive: true });
 
   function frame(now) {
     if (!running) return;
@@ -148,6 +149,10 @@
   }
   function start() { if (!running && visible && !document.hidden && !reduceMotion) { running = true; last = performance.now(); requestAnimationFrame(frame); } }
   function stop() { running = false; }
+
+  // phones can drop the WebGL context (low memory, tab switching): recover instead of leaving a blank hero
+  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); stop(); });
+  canvas.addEventListener('webglcontextrestored', () => { rebuildEnvironment(); resize(); start(); });
 
   renderer.render(scene, camera);                    // first paint / reduced-motion still frame
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? start() : stop(); }).observe(stage);

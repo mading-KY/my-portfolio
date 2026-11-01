@@ -158,3 +158,27 @@ button[type="submit"]:hover { opacity: 0.9; }
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
+
+
+.btn--delete {
+  background: transparent;
+  color: #ff6b6b;
+  border: 1px solid #6b3030;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn--delete:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn--delete:active {
+  transform: translateY(1px);
+}

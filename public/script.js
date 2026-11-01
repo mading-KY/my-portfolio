@@ -13,7 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initFooterYear();
   initSmoothScroll();
+  initHeroImage();
+  initProfile();
 });
+
+const prefersReducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // LOADING SCREEN
 function initLoadingScreen() {
@@ -126,43 +130,66 @@ function initRevealAnimations() {
 }
 
 // CONTACT FORM
+// Each message gets one submissionId. If the server is slow and you press Send again with the
+// SAME text, the same id is sent, so the server recognises it and never delivers it twice.
 function initContactForm() {
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('submitBtn');
   if (!form) return;
+  const LIMITS = { name: 100, email: 254, message: 2000 };
+  const newId = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
+  let attempt = { key: '', id: '' };
+  let sending = false;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (sending) return;                                            // ignore double clicks
 
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
+    const website = document.getElementById('website')?.value || '';   // honeypot: only bots fill it
 
     if (!name || !email || !message) return showFormStatus('Please fill in all fields.', 'error');
     if (!isValidEmail(email)) return showFormStatus('Please enter a valid email address.', 'error');
+    if (name.length > LIMITS.name || email.length > LIMITS.email || message.length > LIMITS.message)
+      return showFormStatus('Your message is too long. Please shorten it a little.', 'error');
+    if (website) { form.reset(); return showFormStatus('Message sent successfully!', 'success'); }   // pretend success, send nothing
 
+    const key = [name, email.toLowerCase(), message].join('\u0000');
+    if (attempt.key !== key) attempt = { key, id: newId() };       // new text => new id; same text => same id
+
+    sending = true;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
+    const slow = setTimeout(() => showFormStatus('Still sending — the server may need a few seconds to wake up. Please wait.', 'info', true), 6000);
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 45000);            // free hosting can take ~30–40 s to wake up
 
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ name, email, message, website, submissionId: attempt.id }),
+        signal: ctrl.signal,
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Something went wrong.');
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
 
       showFormStatus('Message sent successfully!', 'success');
       form.reset();
+      attempt = { key: '', id: '' };
     } catch (error) {
+      const again = 'Press Send again — the same message is never delivered twice.';
       showFormStatus(
-        error.message === 'Failed to fetch'
-          ? 'Cannot reach server. Email me directly at madingmajok484@gmail.com'
+        error.name === 'AbortError' ? `The server is taking longer than expected. ${again}`
+          : error instanceof TypeError ? `Cannot reach the server. Check your connection and try again — or email me at madingmajok484@gmail.com. ${again}`
           : error.message,
         'error'
       );
     } finally {
+      clearTimeout(slow); clearTimeout(timer);
+      sending = false;
       submitBtn.disabled = false;
       submitBtn.textContent = 'Send Message';
     }
@@ -173,12 +200,14 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function showFormStatus(message, type) {
+let statusTimer;
+function showFormStatus(message, type, sticky = false) {
   const status = document.getElementById('formStatus');
+  clearTimeout(statusTimer);
   status.textContent = message;
   status.className = `form-status form-status--${type}`;
   status.style.display = 'block';
-  setTimeout(() => { status.style.display = 'none'; }, 5000);
+  if (!sticky) statusTimer = setTimeout(() => { status.style.display = 'none'; }, 7000);
 }
 
 // BACK TO TOP
@@ -187,7 +216,7 @@ function initBackToTop() {
   window.addEventListener('scroll', () => {
     button.classList.toggle('visible', window.scrollY > 500);
   });
-  button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' }));
 }
 
 // FOOTER YEAR
@@ -204,8 +233,49 @@ function initSmoothScroll() {
       const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
       }
     });
   });
+}
+
+// HERO PHOTO: if the image is missing, hide it and let the gradient ring show
+function initHeroImage() {
+  const img = document.querySelector('.hero__image');
+  if (!img) return;
+  img.addEventListener('error', () => { img.style.display = 'none'; });
+  img.addEventListener('load', () => { img.style.display = ''; });
+  if (img.complete && img.naturalWidth === 0) img.style.display = 'none';
+}
+
+// PROFILE (optional): fills the hero from /api/profile when the server provides it.
+// Uses textContent only (never innerHTML) and validates every value, so the API cannot inject markup.
+async function initProfile() {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 4000);
+  try {
+    const res = await fetch('/api/profile', { headers: { Accept: 'application/json' }, signal: ctrl.signal });
+    if (!res.ok || !(res.headers.get('content-type') || '').includes('application/json')) return;
+    const p = await res.json();
+    const str = (v, max) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null);
+
+    const name = str(p.name, 80), role = str(p.role, 120), bio = str(p.bio, 600), photo = str(p.photo, 300);
+    const title = document.querySelector('.hero__title');
+    if (title && name) {
+      const [first, ...rest] = name.split(/\s+/);
+      title.textContent = first + ' ';
+      if (rest.length) {
+        const span = document.createElement('span');
+        span.className = 'highlight';
+        span.textContent = rest.join(' ');
+        title.appendChild(span);
+      }
+    }
+    const roleEl = document.querySelector('.hero__role em');
+    if (roleEl && role) roleEl.textContent = role;
+    const bioEl = document.querySelector('.hero__description');
+    if (bioEl && bio) bioEl.textContent = bio;
+    const img = document.querySelector('.hero__image');
+    if (img && photo && (/^\/(?!\/)/.test(photo) || /^https:\/\//i.test(photo))) img.src = photo;   // same-site path or https only
+  } catch { /* keep the static content */ } finally { clearTimeout(timer); }
 }
